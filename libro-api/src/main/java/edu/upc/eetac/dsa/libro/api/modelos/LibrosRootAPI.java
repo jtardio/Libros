@@ -25,7 +25,7 @@ public class LibrosRootAPI {
 		}
 	 
 		public void setLinks(List<Link> links) {
-			this.links = links;
+			this.links = links;	
 		}
 		
 		
