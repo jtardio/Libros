@@ -5,7 +5,7 @@ insert into user_roles values ('admin', 'Administrador');
 insert into usuarios values('test', MD5('test'), 'Test');
 insert into user_roles values ('test', 'registered');
 
-insert into usuarios values('donramon', MD5('donramon'), 'DonRamon');
+insert into usuarios values('jtardio', MD5('jtardio'), 'jtardio');
 insert into user_roles values ('donramon', 'registered');
 
 insert into autores values('Autor0');

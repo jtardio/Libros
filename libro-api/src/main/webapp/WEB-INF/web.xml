@@ -110,7 +110,7 @@
     </web-resource-collection>
     <auth-constraint>
       <role-name>Administrador</role-name>
-      <role-name>regitered</role-name>
+      <role-name>registered</role-name>
     </auth-constraint>
   </security-constraint>
   <security-constraint>
