@@ -42,6 +42,7 @@ public class ResenaResource {
 					"You are not allowed to modify this sting.");
 	}
 
+//////////////////////////////////Obtener reseña de la BBDD//////////////////////////////////////////////////
 	
 	private String GET_RESENA_BY_ID_QUERY = "select * from resena where idresena=?";
 	
@@ -86,6 +87,8 @@ public class ResenaResource {
 
 		return resena;
 	}
+	
+//////////////////////////////////////Obtener reseña por id/////////////////////////////////////////////
 	
 	@GET
 	@Path("/{idresena}")
@@ -132,6 +135,8 @@ public class ResenaResource {
 		}
 		return resen;
 	}
+	
+//////////////////////////////Eliminar reseña por id///////////////////////////////////////////
 
 	private String DELETE_RESENA_QUERY="DELETE  FROM resena where idresena=?";
 	
@@ -169,6 +174,8 @@ public class ResenaResource {
 		}
 	}
 	
+
+////////////////////////////////Crear nueva reseña/////////////////////////////////////////////////////////	
 	
 private String INSERT_RESENA_QUERY="insert into resena (idlibro, creador , datos, fecha) values ( ?,?,?,?)";  
 	
@@ -176,7 +183,7 @@ private String INSERT_RESENA_QUERY="insert into resena (idlibro, creador , datos
 	@Consumes(MediaType.LIBRO_API_RESENA)
 	@Produces(MediaType.LIBRO_API_RESENA)
 	public Resena createResena(Resena resena) {
-		//validateLibro(libro);
+	
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();
@@ -190,7 +197,7 @@ private String INSERT_RESENA_QUERY="insert into resena (idlibro, creador , datos
 			stmt = conn.prepareStatement(INSERT_RESENA_QUERY,
 					Statement.RETURN_GENERATED_KEYS);
 
-			//stmt.setString(1, security.getUserPrincipal().getName());
+			
 			stmt.setInt(1, resena.getIdlibro());
 			stmt.setString(2, resena.getCreador());
 			stmt.setString(3, resena.getDatos());
@@ -218,6 +225,8 @@ private String INSERT_RESENA_QUERY="insert into resena (idlibro, creador , datos
 
 		return resena;
 	}
+	
+////////////////////////////////Actualizar reseña por id///////////////////////////////////////////
 	
 	private String UPDATE_RESENA_QUERY = "update resena set idlibro=ifnull(?,idlibro),datos=ifnull(?,datos),fecha=ifnull(?,fecha) where idresena=?";
 	

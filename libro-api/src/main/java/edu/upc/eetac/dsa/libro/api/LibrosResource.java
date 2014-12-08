@@ -38,6 +38,7 @@ public class LibrosResource {
 	@Context
 	private SecurityContext security;
 
+/////////////////////////Obtener libros de la BBDD////////////////////////////	
 	private String GET_LIBROS_BY_ID_QUERY = "select * from libros where idlibro=?";
 
 	private Libros getLibroFromDatabase(String idlibros) {
@@ -84,6 +85,8 @@ public class LibrosResource {
 
 		return libro;
 	}
+	
+	//////////////////////////GET cacheado de libros por id_libro////////////////////////////////
 
 	@GET
 	@Path("/{idlibros}")
@@ -112,6 +115,8 @@ public class LibrosResource {
 
 		return rb.build();
 	}
+	
+	/////////////////////////////////Obtener libro por nombre de autor por orden del mas reciente////////////////////////
 
 	private String GET_LIBROS_BY_AUTOR_FROM_LAST = "select l.* from libros l where autor LIKE ? and l.lastmodified > ? order by lastmodified";
 	private String GET_LIBROS_BY_AUTOR = "select l.* from libros l where autor LIKE ? and l.lastmodified < ifnull ( ?, now()) order by lastmodified desc limit ?";
@@ -193,6 +198,8 @@ public class LibrosResource {
 
 		return coleccionlibros;
 	}
+	
+/////////////////////////////////Obtener libro por titulo por orden del mas reciente////////////////////////
 
 	private String GET_LIBROS_BY_TITULO_FROM_LAST = "select l.* from libros l where titulo LIKE ? and l.lastmodified > ? order by lastmodified";
 	private String GET_LIBROS_BY_TITULO = "select l.* from libros l where titulo LIKE ? and l.lastmodified < ifnull ( ?, now()) order by lastmodified desc limit ?";
@@ -273,20 +280,24 @@ public class LibrosResource {
 
 		return coleccionlibros;
 	}
+	
+////////////////////////////Validador de contenido de libros//////////////////////////////////////
 
 	private void validateLibro(Libros libro) {
 
 		if (libro.getAutor() == null) {
-			throw new BadRequestException("titulo no puede ser nulo");
+			throw new BadRequestException("autor no puede ser nulo");
 		}
 		if (libro.getTitulo() == null) {
 			throw new BadRequestException("titulo no puede ser nulo");
 		}
 		if (libro.getEditorial() == null) {
-			throw new BadRequestException("titulo no puede ser nulo");
+			throw new BadRequestException("editorial no puede ser nulo");
 		}
-		// Todos los campos
+		
 	}
+	
+////////////////////////Crear nuevo libro///////////////////////////////////////////////////
 
 	private String INSERT_LIBRO_QUERY = "insert into libros (titulo, autor, lengua, edicion, editorial, fechaedicion, fechaimpresion) values ( ?,?,?,?,?,?,?)";
 
@@ -339,13 +350,15 @@ public class LibrosResource {
 
 		return libro;
 	}
+	
+//////////////////////////////////Eliminar libro por id/////////////////////////////////////////////
 
 	private String DELETE_LIBRO_QUERY = "DELETE  FROM libros where idlibro=?";
 
 	@DELETE
 	@Path("/{idlibro}")
 	public void deleteSting(@PathParam("idlibro") String idlibro) {
-		// validateUser(stingid);
+		
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();
@@ -361,7 +374,7 @@ public class LibrosResource {
 
 			int rows = stmt.executeUpdate();
 			if (rows == 0)
-				throw new NotFoundException("There's no sting with stingid="
+				throw new NotFoundException("No existe libro son idlibro="
 						+ idlibro);// Deleting inexistent sting
 		} catch (SQLException e) {
 			throw new ServerErrorException(e.getMessage(),
@@ -375,6 +388,8 @@ public class LibrosResource {
 			}
 		}
 	}
+	
+//////////////////////////////////////Actualizar libro por id//////////////////////////////////////////////////
 
 	private String UPDATE_LIBRO_QUERY = "update libros set titulo=ifnull(?, titulo), autor=ifnull(?, autor), lengua=ifnull(?, lengua), edicion=ifnull(?, edicion), fechaedicion=ifnull(?, fechaedicion), fechaimpresion=ifnull(?, fechaimpresion), editorial=ifnull(?, editorial) where idlibro=?";
 
@@ -383,8 +398,7 @@ public class LibrosResource {
 	@Consumes(MediaType.LIBRO_API_LIBROS)
 	@Produces(MediaType.LIBRO_API_LIBROS)
 	public Libros updateLibro(@PathParam("idlibro") String idlibro, Libros libro) {
-		// validateUser(stingid);
-		// validateUpdateSting(sting);
+		
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();

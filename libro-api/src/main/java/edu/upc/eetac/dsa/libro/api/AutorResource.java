@@ -30,6 +30,7 @@ public class AutorResource {
 	@Context
 	private SecurityContext security;
 	
+	/////////////////////Eliminar autor por nombre//////////////////////
 	private String DELETE_AUTOR_QUERY="DELETE  FROM autores where nombreautor=?";
 	
 	@DELETE
@@ -65,6 +66,8 @@ public class AutorResource {
 			}
 		}
 	}
+	
+	//////////////////////Obtener autores por nombre de la BBDD/////////////////////////////
 	private String GET_AUTORES_BY_NOMBRE = "select * from autores where nombreautor=?";
 	
 	private Autores getAutoresFromDatabase(String nombreautor) {
@@ -113,6 +116,8 @@ private void validateAutor( Autores autor){
 			throw new BadRequestException("nombre no puede ser null");
 		}
 }
+
+/////////////////////////////Crear nuevo autor/////////////////////////////
 private String INSERT_AUTOR_QUERY = "insert into autores values (?)"; 
 
 	@POST
@@ -161,6 +166,7 @@ private String INSERT_AUTOR_QUERY = "insert into autores values (?)";
 		
 	}
 	
+	/////////////////////////////////////Actualizar datos de autor///////////////////////////////////////
 	private String UPDATE_AUTOR_QUERY = "update autores set nombreautor=ifnull(?, nombreautor) where nombreautor = ?";
 	
 	@PUT
